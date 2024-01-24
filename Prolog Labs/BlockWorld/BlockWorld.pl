@@ -1,0 +1,5 @@
+block(a).
+block(b).
+block(c).
+block(d).
+table.
