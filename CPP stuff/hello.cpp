@@ -36,10 +36,10 @@ class Car {
 int main (int argc, char** argv) {
     map<string, int> mp;
     mp.insert({"hello", 9});
-    if (!mp.count("hello")) {
-        cout << "Hello key found!";
-    }
     string hello = "Hello";
+    if (mp.count("Goodbye")) {
+        cout << "Goodbye key found!";
+    }
     
     Car car((uint8_t) 2011, "Hyundai", "Sonata", 15000, false);
 
