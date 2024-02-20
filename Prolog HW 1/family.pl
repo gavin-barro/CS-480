@@ -13,16 +13,18 @@ parent(nilton, russ).
 parent(noreen, gus).
 parent(noreen, russ).
 
-% Sibling: sibling(X, Y) which is true if X is a brother or sister of Y
-% sibling(x, y).
+parent(tammy, raj).
+parent(tammy, nitron).
+parent(jair, raj).
+parent(jair, nitron).
 
-sibling(nilton, raj).
+% Sibling: sibling(X, Y) which is true if X is a brother or sister of Y
+sibling(X, Y) :- parent(P, X), parent(P, Y), X \= Y.
 
 % Question 4
 
 % Grandparent: grandparent(G, K) that is true if G is a grandparent of K
-grandparent(g, k).
+grandparent(G, K) :- parent(G, P), parent(P, K).
 
 % Cousin: cousin(C, S) that is true if C is a cousin of S
-cousin(c, s).
-
+cousin(C, S) :- parent(P1, C), parent(P2, S), sibling(P1, P2), C \= S.
