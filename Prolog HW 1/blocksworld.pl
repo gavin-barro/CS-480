@@ -16,9 +16,19 @@
 % -----------------------------------------------------------------------------------------------------------
 % 6 B- Translate the predicate logic sentences from Part A into Prolog statements
 
+% Rules
 
+% Agent can move if block X is clear
+move(X) :- clear(X), moveable(X).
 
-move(A, B, Table) :- clear(B), on(B, Table)
+% Unclear blocks can't be moved until they are cleared
+move(X) :- \+ (on(Y, X), moveable(X)).
+
+% The table doesn't have to be clear
+move(X) :- table(Y).
+
+% A block can be moved onto the table even if there are other blocks on the table
+move(X) :- table(Y), moveable(X)
 
 
 % 6 C. Translate the initial state of the given planning problem into Prolog clauses and add them to the program you wrote in Part B. 
@@ -31,10 +41,30 @@ move(A, B, Table) :- clear(B), on(B, Table)
 % move(a, b, table) % move a from b to table
 % move(c, table, b) % move c from table to b
 
+% Redefined rules:
+
 on(a, b).
 on(b, table).
 on(c, table).
 clear(a).
 clear(c).
 
+% Additional help from: http://alumni.cs.ucr.edu/~vladimir/cs171/prolog_2.pdf  
+% Assert and retract help dynamically update the state of the blocks
 
+% New Move
+move(X, Y, Table) :-
+    on(X, Y),      % Block X is initially on block Y
+    clear(X),      % Block X is clear to be moved
+    moveable(X),   % Block X is moveable
+    \+ (on(_, X), moveable(X)),  % No other block is on top of X
+    \+ table(b),   % Block B is not on the table
+    assertz(clear(Y)),   % Update that B is clear after moving A from it
+    assertz(on(X, Table)),  % Move X onto the table
+    retract(on(X, Y)).  % Update that A is no longer on B
+
+move(a, b, table) % move a from b to table
+move(c, table, b) % move c from table to b
+
+% goal state: 
+on(c, b)

@@ -26,5 +26,18 @@ sibling(X, Y) :- parent(P, X), parent(P, Y), X \= Y.
 % Grandparent: grandparent(G, K) that is true if G is a grandparent of K
 grandparent(G, K) :- parent(G, P), parent(P, K).
 
+% Output:
+% ?- grandparent(G, K).
+% G = tammy,
+% K = niki ;
+% G = tammy,
+% K = nolan ;
+% G = jair,
+% K = niki ;
+% G = jair,
+% K = nolan ;
+
 % Cousin: cousin(C, S) that is true if C is a cousin of S
 cousin(C, S) :- parent(P1, C), parent(P2, S), sibling(P1, P2), C \= S.
+
+% false
