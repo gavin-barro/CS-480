@@ -1,56 +1,48 @@
-% 6 A- Translate the Blocksworld rules specified above into Predicate Logic.
+% 6A:
 
-% The agent can move a block as long as that block is clear:
-%   clear(X) -> moveable(X)
+% clear(x)  -> x is clear
+% moveable(x)   -> x is moveable
+% table(x)  -> x is on the table
+% on(x, y)     -> x is on y
 
-% Unclear blocks cannot be moved until they are cleared:
-%   ¬clear(X) -> ¬moveable(X)
-
-% The table doesn’t have to be clear. 
-%    on(X, table)
-
-% A block can always be moved onto the table even when there already are one or more blocks on the table:
-%    moveable(X) -> move(X, table)
+% Predicates:
+%   Agent can move if block X is clear: ∀x(clear(x) -> moveable(x))
+%   Unclear blocks can't be moved until they are cleared: ∀x∀y(on(y,x) -> ¬moveable(x))
+%   The table doesn't have to be clear: ∀x(table(x) -> moveable(y))
+%   A block can be moved onto the table even if there are other blocks on the table:  ∀x∀y(table(y) -> moveable(x))
 
 
-% -----------------------------------------------------------------------------------------------------------
-% 6 B- Translate the predicate logic sentences from Part A into Prolog statements
+% 6B:
 
-% Rules
+% Rules  (replaced Y with _)
 
 % Agent can move if block X is clear
 move(X) :- clear(X), moveable(X).
 
 % Unclear blocks can't be moved until they are cleared
-move(X) :- \+ (on(Y, X), moveable(X)).
+move(X) :- \+ (on(_, X), moveable(X)).
 
 % The table doesn't have to be clear
-move(X) :- table(Y).
+move(X) :- table(_).
 
 % A block can be moved onto the table even if there are other blocks on the table
-move(X) :- table(Y), moveable(X)
+move(X) :- table(_), moveable(X).   
 
+% 6 C.
 
-% 6 C. Translate the initial state of the given planning problem into Prolog clauses and add them to the program you wrote in Part B. 
-% For this problem, you can also assume that the world only has three blocks in it: 
-% a, b, and c (remember object names are represented in lower case in Prolog. Upper case letters are reserved for variables). 
-% Add print statements to your program so that the program prints out the plan i.e., 
-% the ordered sequence of actions which if executed in this world will result in achievement of the goal state. 
-% For instance, the plan for this problem could be printed as
+% Define dynamic predicates for on/2 and clear/1
+:- dynamic on/2, clear/1.
+% Additional help from: http://alumni.cs.ucr.edu/~vladimir/cs171/prolog_2.pdf  
+% Assert and retract help dynamically update the state of the blocks
 
-% move(a, b, table) % move a from b to table
-% move(c, table, b) % move c from table to b
-
-% Redefined rules:
+:- discontiguous on/2.
+% Got a warning and was told to add the above line to get rid of it
 
 on(a, b).
 on(b, table).
 on(c, table).
 clear(a).
 clear(c).
-
-% Additional help from: http://alumni.cs.ucr.edu/~vladimir/cs171/prolog_2.pdf  
-% Assert and retract help dynamically update the state of the blocks
 
 % New Move
 move(X, Y, Table) :-
@@ -63,8 +55,9 @@ move(X, Y, Table) :-
     assertz(on(X, Table)),  % Move X onto the table
     retract(on(X, Y)).  % Update that A is no longer on B
 
-move(a, b, table) % move a from b to table
-move(c, table, b) % move c from table to b
+move(a, b, table). % move a from b to table
+move(c, table, b). % move c from table to b
+move(a, table, b). % move a from table to b (to achieve on(a, table))
 
 % goal state: 
-on(c, b)
+on(c, b).

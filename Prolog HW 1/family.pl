@@ -20,6 +20,7 @@ parent(jair, nitron).
 
 % Sibling: sibling(X, Y) which is true if X is a brother or sister of Y
 sibling(X, Y) :- parent(P, X), parent(P, Y), X \= Y.
+sibling(nilton, raj).
 
 % Question 4
 
@@ -40,4 +41,11 @@ grandparent(G, K) :- parent(G, P), parent(P, K).
 % Cousin: cousin(C, S) that is true if C is a cousin of S
 cousin(C, S) :- parent(P1, C), parent(P2, S), sibling(P1, P2), C \= S.
 
-% false
+% C = gus,
+% S = niki ;
+% C = gus,
+% S = nolan ;
+% C = russ,
+% S = niki ;
+% C = russ,
+% S = nolan ;

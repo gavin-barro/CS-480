@@ -3,7 +3,7 @@
 % Facts:
 have_sugar.
 have_flower.
-bake_cake :- have_flower ^ have_sugar. % or is it , ???
+bake_cake :- have_flower, have_sugar.
 
 % Query
 bake_cake.
