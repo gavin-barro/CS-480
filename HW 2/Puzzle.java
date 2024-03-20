@@ -69,12 +69,6 @@ public class Puzzle {
             this.puzzle.put(new Tuple(nextRow, column), nextValue);
             this.puzzle.put(new Tuple(lastRow, column), lastValue);
         } else {
-//            // Check if moving up is valid
-//            if (row == 0 || this.puzzle.get(new Tuple(row - 1, column)) != null) {
-//                // Can't move up
-//                return;
-//            }
-
             // Perform the move
             Object value = this.puzzle.get(new Tuple(row + 1, column));
             this.puzzle.put(new Tuple(row, column), value);
@@ -111,12 +105,6 @@ public class Puzzle {
             this.puzzle.put(new Tuple(nextRow, column), nextValue);
             this.puzzle.put(new Tuple(lastRow, column), lastValue);
         } else {
-//            // Check if moving down is valid
-//            if (row == 2 || this.puzzle.get(new Tuple(row + 1, column)) != null) {
-//                // Can't move down
-//                return;
-//            }
-
             // Perform the move
             Object value = this.puzzle.get(new Tuple(row - 1, column));
             this.puzzle.put(new Tuple(row, column), value);
@@ -154,12 +142,6 @@ public class Puzzle {
             this.puzzle.put(new Tuple(row, nextColumn), nextValue);
             this.puzzle.put(new Tuple(row, lastColumn), lastValue);
         } else {
-//            // Check if moving left is valid
-//            if (column == 0 || this.puzzle.get(new Tuple(row, column - 1)) != null) {
-//                // Can't move left
-//                return;
-//            }
-
             // Perform the move
             Object value = this.puzzle.get(new Tuple(row, column + 1));
             this.puzzle.put(new Tuple(row, column), value);
@@ -196,12 +178,6 @@ public class Puzzle {
             this.puzzle.put(new Tuple(row, nextColumn), nextValue);
             this.puzzle.put(new Tuple(row, lastColumn), lastValue);
         } else {
-//            // Check if moving right is valid
-//            if (column == 2 || this.puzzle.get(new Tuple(row, column + 1)) != null) {
-//                // Can't move right
-//                return;
-//            }
-
             // Perform the move
             Object value = this.puzzle.get(new Tuple(row, column - 1));
             this.puzzle.put(new Tuple(row, column), value);
@@ -236,6 +212,27 @@ public class Puzzle {
         return true;
     }
 
+    public Tuple findPosition(int value) {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                Object tile = getValue(row, col);
+                if (tile != null && (int) tile == value) {
+                    return new Tuple(row, col);
+                }
+            }
+        }
+        return null; // Value not found
+    }
+
+    public int getColumn(Tuple tuple) {
+        return tuple.getFirst();
+    }
+
+    public int getRow(Tuple tuple) {
+        return tuple.getSecond();
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -255,6 +252,6 @@ public class Puzzle {
 
     @Override
     public String toString() {
-        return "Puzzle = " + this.getPuzzle() ;
+        return "Puzzle = " + this.puzzle ;
     }
 }

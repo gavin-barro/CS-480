@@ -21,6 +21,7 @@ public class Tuple {
         return this.second;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

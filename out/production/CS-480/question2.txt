@@ -3,8 +3,8 @@ my computer could handle the computation and not wanting to take up too much tim
 algorithms will work for more complex puzzles, just take more time. Regardless of that, it can be seen below that the A*
 search easily clears the BFS and DFID as expected, and in some cases, even taking 0.000 seconds. If you were to run the
 q2.java file, you should get very similar output. The Puzzle class contains my custom Puzzle class, which is a
-LinkedHashMap (to maintain insertion order), with the key of a custom 2-object Tuple (Tuple.java) and a value of Object,
-an integer for our example. The files listed above are included in the submission.
+LinkedHashMap (to maintain insertion order), with the key of a custom Tuple (Tuple.java) and a value of Object, an
+integer for our example.
 
 Average time taken for BFS: ~0.035 seconds
 Average time taken for A* search: ~0.001 seconds

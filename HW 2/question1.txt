@@ -2,7 +2,7 @@ Q1. What is the size of the search space for the ROE version of the puzzle?
 How does it compare with the search space for the standard eight sliding tile puzzle? (10 points)
 
 Answer:
-The search space for the standard eight sliding tile puzzle is 8 factorial (8!) or 40,320. However, the size of the ROE
-version is much larger as it would be.....
-
-TODO -> figure the ROE search space
+The search space for the standard eight sliding tile puzzle is nine factorial divided by two (9! / 2) or 181,440.
+However, the size of the ROE version is much larger as it would be 9!, this is because in the standard version, only
+half of the total configurations are possible, hence the division by two. Since we can roll over the edges, however, we
+have no need to divide by two.
