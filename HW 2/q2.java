@@ -2,7 +2,7 @@ import java.util.*;
 
 public class q2 {
 
-    static final int NUMBER_OF_PUZZLES = 5;
+    public static final int NUMBER_OF_PUZZLES = 5;
 
     // Define the Node class for A* search
     public static class Node {
@@ -97,12 +97,20 @@ public class q2 {
         return new Puzzle(map);
     }
 
+    private static List<String> reconstructPath(Puzzle currrent, Map<Puzzle, Puzzle> parent) {
+        List<String> path = new ArrayList<>();
+        while (currrent != null) {
+            path.add(0, currrent.toString()); // Add the puzzle state to the path
+            currrent = parent.get(currrent); // Move to the parent state
+        }
+        return path;
+    }
 
     public static List<String> solveBFS(Puzzle initial, Puzzle goal) {
         Queue<Puzzle> queue = new LinkedList<>();
         Set<Puzzle> visited = new HashSet<>();
         Map<Puzzle, Puzzle> parent = new LinkedHashMap<>();
-        List<String> solution = new ArrayList<>();
+//        List<String> solution = new ArrayList<>();
 
         queue.offer(initial);
         visited.add(initial);
@@ -111,12 +119,7 @@ public class q2 {
             Puzzle current = queue.poll();
 
             if (current.equals(goal)) {
-                // Reconstruct the path from initial state to goal state
-                while (current != null) {
-                    solution.add(0, current.toString()); // Add the puzzle state to the solution
-                    current = parent.get(current); // Move to the parent state
-                }
-                return solution;
+                return reconstructPath(current, parent);
             }
 
             // Generate successor states and enqueue them if not visited
@@ -242,13 +245,13 @@ public class q2 {
         System.out.println("Average time taken for BFS: " + averageTimeSeconds + " seconds");
     }
 
-    public static List<String> depthFirstIterativeDeepening(Puzzle start, Puzzle goal) {
+    public static List<String> depthFirstIterativeDeepening(Puzzle initial, Puzzle goal) {
         boolean found = false;
         int depth = 1;
         List<String> solution = null;
 
         while (!found) {
-            solution = depthLimitedSearch(start, goal, depth);
+            solution = depthLimitedSearch(initial, goal, depth);
             if (solution != null) {
                 found = true; // Solution found
             }
@@ -258,13 +261,13 @@ public class q2 {
         return solution;
     }
 
-    public static List<String> depthLimitedSearch(Puzzle start, Puzzle goal, int depthLimit) {
+    public static List<String> depthLimitedSearch(Puzzle initial, Puzzle goal, int depthLimit) {
         Stack<Puzzle> stack = new Stack<>();
         Set<Puzzle> visited = new HashSet<>();
         Map<Puzzle, Puzzle> parent = new LinkedHashMap<>();
 
-        stack.push(start);
-        visited.add(start);
+        stack.push(initial);
+        visited.add(initial);
 
         while (!stack.isEmpty()) {
             Puzzle current = stack.pop();
@@ -289,16 +292,6 @@ public class q2 {
 
         return null; // Solution isn't found within the depth limit
     }
-
-    private static List<String> reconstructPath(Puzzle node, Map<Puzzle, Puzzle> parent) {
-        List<String> path = new ArrayList<>();
-        while (node != null) {
-            path.add(0, node.toString()); // Add the puzzle state to the path
-            node = parent.get(node); // Move to the parent state
-        }
-        return path;
-    }
-
 
 
     public static void runDFID(Puzzle puzzleOne, Puzzle puzzleTwo, Puzzle puzzleThree, Puzzle puzzleFour,
@@ -396,9 +389,14 @@ public class q2 {
     }
 
     public static List<String> searchAStar(Puzzle start, Puzzle goal) {
+        // Sets up priority queue to prioritize nodes based on their fScore.
+        // Ensures that nodes with lower fScore are explored first.
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(n -> n.fScore));
-        Map<Puzzle, Integer> gScore = new HashMap<>();
-        Map<Puzzle, Puzzle> cameFrom = new HashMap<>();
+
+        //  The gScore represents the actual cost of getting from the start node to a given node
+        //  along the currently known best path
+        Map<Puzzle, Integer> gScore = new LinkedHashMap<>();
+        Map<Puzzle, Puzzle> cameFrom = new LinkedHashMap<>();
 
         // Initialize the start node
         openSet.add(new Node(start, 0, heuristic(start, goal)));
@@ -425,6 +423,9 @@ public class q2 {
                 if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
                     cameFrom.put(neighbor, currentPuzzle);
                     gScore.put(neighbor, tentativeGScore);
+                    // fScore represents the combined cost of the path from the start node to a given node (gScore)
+                    // and an estimate of the cost from that node to the goal node
+                    // (heuristic value)
                     int fScore = tentativeGScore + heuristic(neighbor, goal);
                     openSet.add(new Node(neighbor, tentativeGScore, fScore));
                 }
@@ -520,9 +521,8 @@ public class q2 {
 
 
         runBFS(puzzleOne, puzzleTwo, puzzleThree, puzzleFour, puzzleFive, goalState);
-//        runDFID(puzzleOne, puzzleTwo, puzzleThree, puzzleFour, puzzleFive, goalState);
         runAStar(puzzleOne, puzzleTwo, puzzleThree, puzzleFour, puzzleFive, goalState);
-
+        runDFID(puzzleOne, puzzleTwo, puzzleThree, puzzleFour, puzzleFive, goalState);
     }
 
 }

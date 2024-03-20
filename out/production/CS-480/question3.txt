@@ -1,0 +1,2 @@
+My solution to the 8-queens problem is listed in the file "EightQueens.java." I used a local search to find the
+solution instead of backtracking like I've done in other Computer Science courses I've taken.

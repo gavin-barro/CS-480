@@ -1,10 +1,24 @@
-NOTE: I chose puzzles that I completed by hand and made sure they weren't too complex, this was done to make sure that
+    I chose puzzles that I completed by hand and made sure they weren't too complex, this was done to make sure that
 my computer could handle the computation and not wanting to take up too much time. It should be noted that these
-algorithms will work for more complex puzzles, just take more time. Regardless of that, it can be seen below that the A*
-search easily clears the BFS and DFID as expected, and in some cases, even taking 0.000 seconds. If you were to run the
-q2.java file, you should get very similar output. The Puzzle class contains my custom Puzzle class, which is a
-LinkedHashMap (to maintain insertion order), with the key of a custom Tuple (Tuple.java) and a value of Object, an
-integer for our example.
+algorithms will work for more complex puzzles, just take more time and computational resources. Regardless of that,
+it can be seen below that the A* search easily clears the BFS and DFID as expected, and in some cases, even taking
+0.000 seconds. If you were to run the q2.java file, you should get very similar output. The Puzzle class contains my
+custom Puzzle class, which is a LinkedHashMap (to maintain insertion order), with the key of a custom 2-object Tuple
+(Tuple.java) and a value of Object, an integer for our example. The files listed above are included in the submission.
 
+    I believe that my depth-first iterative deepening algorithm is correct and would work, as I have followed your
+pseudocode and consulted some online resources such as StackOverflow. However, due to the nature of depth-first
+deepening, I believe that it would take too long to compute and find a solution. The first puzzle runs quickly, as it
+only requires one move to move over, however, the others require a lot more different movements and by looking at it
+from a depth-first approach it would take a lot longer to build the tree. For example, I tried running the program with
+a print statement and the depth level got well over 5,000, causing me to halt the program as my computer made concerning
+sounds. By printing our DFID for the first puzzle, we got a very long output, which leads me to believe that it would
+take a significantly longer time to run it. Looking at websites like the one linked below, we can see that DFID takes
+much longer than the other searching algorithms we were asked to complete.
+
+LINK: https://deniz.co/8-puzzle-solver/
+
+OUTPUT:
 Average time taken for BFS: ~0.035 seconds
 Average time taken for A* search: ~0.001 seconds
+Average time taken for DFID search: ?? Seconds.
